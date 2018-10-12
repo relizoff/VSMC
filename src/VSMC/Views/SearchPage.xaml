@@ -1,0 +1,101 @@
+﻿<catel:Page x:Class="VSMC.Views.SearchPage"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                   TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                   TextElement.FontWeight="Regular"
+                   TextElement.FontSize="13"
+                   TextOptions.TextFormattingMode="Ideal"
+                   TextOptions.TextRenderingMode="Auto"
+                   Background="{DynamicResource MaterialDesignPaper}"
+                   FontFamily="{DynamicResource MaterialDesignFont}"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   mc:Ignorable="d"
+                   xmlns:viewModels="clr-namespace:VSMC.ViewModels"
+                   xmlns:views="clr-namespace:VSMC.Views"
+                   d:DataContext="{d:DesignInstance viewModels:SearchViewModel}">
+    <Grid x:Name="Root">
+
+        <materialDesign:Transitioner x:Name="SearchContent"
+                                     AutoApplyTransitionOrigins="True"
+                                     SelectedIndex="0">
+            <materialDesign:TransitionerSlide>
+                <materialDesign:TransitionerSlide.ForwardWipe>
+                    <materialDesign:FadeWipe Duration="00:00:0.6" />
+                </materialDesign:TransitionerSlide.ForwardWipe>
+                <ScrollViewer>
+                    <ScrollViewer.ContentTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding}"
+                                              Margin="8,64,8,8" />
+                        </DataTemplate>
+                    </ScrollViewer.ContentTemplate>
+                    <ItemsControl x:Name="VideosList"
+                                  ItemsSource="{Binding FoundVideos}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <views:VideoView DataContext="{Binding}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </materialDesign:TransitionerSlide>
+            <materialDesign:TransitionerSlide>
+                <materialDesign:TransitionerSlide.BackwardWipe>
+                    <materialDesign:FadeWipe Duration="00:00:0.6" />
+                </materialDesign:TransitionerSlide.BackwardWipe>
+                <ScrollViewer>
+                    <ScrollViewer.ContentTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding}"
+                                              Margin="8,64,8,8" />
+                        </DataTemplate>
+                    </ScrollViewer.ContentTemplate>
+                    <ItemsControl x:Name="ChannelsList"
+                                  ItemsSource="{Binding FoundChannels}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <views:ChannelView DataContext="{Binding}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+            </materialDesign:TransitionerSlide>
+        </materialDesign:Transitioner>
+
+        <ListBox SelectedIndex="{Binding ElementName=SearchContent, Path=SelectedIndex}"
+                 Style="{StaticResource MaterialDesignToolToggleListBox}"
+                 SelectionMode="Single"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 Margin="16">
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon  Kind="Video" />
+                    <Label Content="Videos" />
+                </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon  Kind="Folder" />
+                    <Label Content="Channels" />
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
+
+    </Grid>
+
+</catel:Page>

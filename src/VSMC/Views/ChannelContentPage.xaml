@@ -1,0 +1,67 @@
+﻿<catel:Page x:Class="VSMC.Views.ChannelContentPage"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:catel="http://schemas.catelproject.com"
+                   TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                   TextElement.FontWeight="Regular"
+                   TextElement.FontSize="13"
+                   TextOptions.TextFormattingMode="Ideal"
+                   TextOptions.TextRenderingMode="Auto"
+                   Background="{DynamicResource MaterialDesignPaper}"
+                   FontFamily="{DynamicResource MaterialDesignFont}"
+                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                   mc:Ignorable="d"
+                   xmlns:viewModels="clr-namespace:VSMC.ViewModels"
+                   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                   xmlns:controls="clr-namespace:VSMC.Controls"
+                   xmlns:views="clr-namespace:VSMC.Views"
+                   d:DataContext="{d:DesignInstance viewModels:ChannelContentViewModel}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.RowSpan="2">
+            <ScrollViewer.ContentTemplate>
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding}"
+                                      Margin="8,64,8,8" />
+                </DataTemplate>
+            </ScrollViewer.ContentTemplate>
+            <ItemsControl x:Name="VideosList"
+                          ItemsSource="{Binding Videos}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <views:VideoView DataContext="{Binding}"
+                                         ChannelButtonVisibility="Collapsed" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <StackPanel Orientation="Horizontal">
+            <Button Margin="16,8"
+                    Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+                    ToolTip="{Binding Path=Title}">
+                <Grid>
+                    <materialDesign:PackIcon Kind="Account" 
+                                             HorizontalAlignment="Center" 
+                                             VerticalAlignment="Center"/>
+                    <Image Source="{Binding CurrentChannel.LogoUrl}"
+                           Margin="-1" />
+                </Grid>
+            </Button>
+            <TextBlock VerticalAlignment="Center"
+                       Text="{Binding Path=CurrentChannel.Title}"
+                       Style="{StaticResource MaterialDesignHeadlineTextBlock}" />
+        </StackPanel>
+    </Grid>
+
+</catel:Page>

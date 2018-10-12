@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Navigation;
+using Squirrel;
 using VSMC.Models;
 using VSMC.Services;
 using VSMC.Services.Interfaces;
@@ -63,6 +66,24 @@ namespace VSMC
             Log.Info("Calling base.OnStartup");
 
             base.OnStartup(e);
+        }
+
+        protected override async void OnLoadCompleted(NavigationEventArgs e)
+        {
+            try
+            {
+                using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/relizoff/VSMC"))
+                {
+                    await mgr.Result.UpdateApp();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex);
+                MessageBox.Show(ex.Message);
+            }
+
+            base.OnLoadCompleted(e);
         }
 
         protected override void OnExit(ExitEventArgs e)
